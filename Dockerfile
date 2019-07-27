@@ -16,14 +16,14 @@ RUN apt install -y ros-melodic-desktop-full
 RUN rosdep init && rosdep update
 
 # Install some essentials
-RUN apt install -y git wget curl nano mercurial
-RUN apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
+RUN apt-get install -y git wget curl nano mercurial
+RUN apt-get install -y python-rosinstall python-rosinstall-generator python-wstool build-essential
 
 # Setup the shell
 RUN /bin/bash -c "echo 'export HOME=/home/ubuntu' >> /root/.bashrc"
 RUN /bin/bash -c "echo 'source /opt/ros/melodic/setup.bash' >> /root/.bashrc && source /root/.bashrc"
 
-# Download OSRF robot models for Gazebo. You can comment this out if you don't care to download these models.
+# Download OSRF robot models for Gazebo.
 RUN mkdir -p ~/.gazebo
 RUN hg clone https://bitbucket.org/osrf/gazebo_models ~/.gazebo/models
 
