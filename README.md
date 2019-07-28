@@ -10,11 +10,11 @@ This Dockerfile will install ROS Melodic with Gazebo 9 on Ubuntu 18.04, and give
 
 Start the image and expose port 5900 so you can connect with a VNC client, and/or port 6080 so you can connect via your browser using NoVNC. We'll also expose port 11311 for the ROS master node and 11345 for the Gazebo server, which we'll need later if we want to communicate to the ROS core and control simualted robots from outside the Docker container.
 
-    docker run -it 
-        -p 6080:80 \ 
-        -p 5900:5900 \ 
-        -p 11311:11311 \  
-        -p 11345:11345 \ 
+    docker run -it \
+        -p 6080:80 \
+        -p 5900:5900 \
+        -p 11311:11311 \
+        -p 11345:11345 \
     ros-gazebo-desktop
 
 Connect to the container using a VNC client or via http://locahost:6080/. From the Ubuntu desktop, open a terminal, and try:
@@ -56,13 +56,15 @@ Ideally, you won't do work inside the container you've launched. Instead, you'll
             -p 11345:11345 \ 
         ros-gazebo-desktop
 
-2. Connect to the container using a VNC client or via http://locahost:6080/
+2. Connect to the container using a VNC client or via http://localhost:6080/
 
 3. Open a terminal within the container, and from the command line start Gazebo with a virtual world (note we've turned on `verbose` to debug an errors)
 
         roslaunch gazebo_ros empty_world.launch verbose:=true
         
 4. From a terminal on your local computer (i.e., from outside of the Docker container)
+
+        
 
 ### Other Robot Models and Considerations
 
