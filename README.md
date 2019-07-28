@@ -14,7 +14,6 @@ Start the image and expose port 5900 so you can connect with a VNC client, and/o
         -p 6080:80 \
         -p 5900:5900 \
         -p 11311:11311 \
-        -p 11345:11345 \
     ros-gazebo-desktop
 
 Connect to the container using a VNC client or via http://locahost:6080/. From the Ubuntu desktop, open a terminal, and try:
@@ -43,30 +42,20 @@ You should see `Spawn status: SpawnModel: Successfully spawned entity`. Switch v
 
 Take a look at the syntax at [http://gazebosim.org/tutorials?tut=ros_roslaunch](http://gazebosim.org/tutorials?tut=ros_roslaunch) for more details.
 
-## Make the Robot Move
+## Persisting Data
 
-Ideally, you won't do work inside the container you've launched. Instead, you'll use the container to show virtual worlds and robots within Gazebo, and control them from outside of the Docker container. Let's do that here.
+To effectively work with the container and save your data, we'll create a workspace volume on your host that is effectively shared with the container.
 
-1. Start the container if it's not running:
+Now when launching the container, we'll use the `-v` flag to mount a local directory, `ros_ws`, inside the container at `/root/ros_ws`.
 
-        docker run -it 
-            -p 6080:80 \ 
-            -p 5900:5900 \ 
-            -p 11311:11311 \  
-            -p 11345:11345 \ 
-        ros-gazebo-desktop
+        docker run -it --rm --name=ros_gazebo_desktop \
+            -p 6080:80 \
+            -p 5900:5900 \
+            -p 11311:11311 \
+            -v $PWD/ros_ws:/root/ros_ws \
+        ros-gazebo-desktop    
 
-2. Connect to the container using a VNC client or via http://localhost:6080/
-
-3. Open a terminal within the container, and from the command line start Gazebo with a virtual world (note we've turned on `verbose` to debug an errors)
-
-        roslaunch gazebo_ros empty_world.launch verbose:=true
-        
-4. From a terminal on your local computer (i.e., from outside of the Docker container)
-
-        
-
-### Other Robot Models and Considerations
+## Other Robot Models and Considerations
 
 * A complete list of the OSRF robots downloaded to your Docker container can be found at [https://bitbucket.org/osrf/gazebo_models/src/default/](https://bitbucket.org/osrf/gazebo_models/src/default/). 
 * If you continue your experiments with the Create model, look at [https://gist.github.com/eddiem3/4f257b769d53c492b7ea0dc482cd7caa](https://gist.github.com/eddiem3/4f257b769d53c492b7ea0dc482cd7caa) or [http://guitarpenguin.is-programmer.com/posts/58100.html](http://guitarpenguin.is-programmer.com/posts/58100.html) for info on adding a differential-drive plugin.
