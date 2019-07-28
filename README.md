@@ -46,7 +46,9 @@ Take a look at the syntax at [http://gazebosim.org/tutorials?tut=ros_roslaunch](
 
 To effectively work with the container and save your data, we'll create a workspace volume on your host that is effectively shared with the container.
 
-Now when launching the container, we'll use the `-v` flag to mount a local directory, `ros_ws`, inside the container at `/root/ros_ws`.
+    mkdir ros_ws
+
+Now when launching the container, we'll use the `-v` flag to mount `ros_ws` inside the container at `/root/ros_ws`.
 
         docker run -it --rm --name=ros_gazebo_desktop \
             -p 6080:80 \
