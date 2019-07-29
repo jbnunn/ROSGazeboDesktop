@@ -1,4 +1,4 @@
-FROM dorowu/ubuntu-desktop-lxde-vnc:bionic-lxqt
+FROM dorowu/ubuntu-desktop-lxde-vnc:xenial
 LABEL maintainer "jbnunn@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -12,9 +12,9 @@ RUN apt-get update && apt-get install -q -y \
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
-# Install ROS Melodic
+# Install ROS Kinetic
 RUN apt update
-RUN apt-get install -y ros-melodic-desktop-full
+RUN apt-get install -y ros-kinetic-desktop-full
 RUN rosdep init && rosdep update
 
 # Install some essentials
