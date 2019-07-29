@@ -84,6 +84,10 @@ This command:
 
 * If you continue your experiments with the Create model, look at [https://gist.github.com/eddiem3/4f257b769d53c492b7ea0dc482cd7caa](https://gist.github.com/eddiem3/4f257b769d53c492b7ea0dc482cd7caa) or [http://guitarpenguin.is-programmer.com/posts/58100.html](http://guitarpenguin.is-programmer.com/posts/58100.html) for info on adding a differential-drive plugin.
 
+## Wrap
+
+You now have a working robotic simulation environment. [Visual Studio Code](https://code.visualstudio.com/) is available to you under the "Programming" menu item if you need a nice IDE. Don't forget that your work will not be saved unless you are working from the `/home/ubuntu/data` folder (or other folder(s) you mount with the `-v` flag.)
+
 ## Troubleshooting
 
 ### Gazebo is slow or processes hang
