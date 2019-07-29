@@ -80,7 +80,7 @@ This command:
 
 * Many OSRF robot and models can be downloaded to your Docker container, and can be found at [https://bitbucket.org/osrf/gazebo_models/src/default/](https://bitbucket.org/osrf/gazebo_models/src/default/). 
 
-     hg clone https://bitbucket.org/osrf/gazebo_models ~/.gazebo/models
+         hg clone https://bitbucket.org/osrf/gazebo_models ~/.gazebo/models
 
 * If you continue your experiments with the Create model, look at [https://gist.github.com/eddiem3/4f257b769d53c492b7ea0dc482cd7caa](https://gist.github.com/eddiem3/4f257b769d53c492b7ea0dc482cd7caa) or [http://guitarpenguin.is-programmer.com/posts/58100.html](http://guitarpenguin.is-programmer.com/posts/58100.html) for info on adding a differential-drive plugin.
 
@@ -88,7 +88,7 @@ This command:
 
 ### Gazebo is slow or processes hang
 
-This is likely a memory issue. Launch your container with more RAM, 4GB for example, with the `-m=4g` flag. Your default Docker installation might not allow that, see [here to change those settings](https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container).
+This is likely a memory issue. Launch your container with more RAM, 4GB for example, with the `-m=4g` flag. Your default Docker installation might be set to something lower, see [here to change those settings](https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container).
 
 ## Credits
 
