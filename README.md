@@ -6,82 +6,89 @@ This Dockerfile will install ROS Melodic with Gazebo 9 on Ubuntu 18.04, and give
     cd ROSGazeboDesktop
     docker build -t ros-gazebo-desktop .
     
-## Test your installation
+## Start and Connect to The Container
 
-Start the image and expose port 5900 so you can connect with a VNC client, and/or port 6080 so you can connect via your browser using NoVNC. We'll also expose port 11311 for the ROS master node which we'll need later if we want to communicate to the ROS core and control simualted robots from outside the Docker container. You can change the `RESOLUTION` to match a mode appropriate for your display.
+To effectively work with the container and save your data, we specify a workspace volume on your host with the `-v` flag.
 
-    docker run -it --rm --name=ros_gazebo_desktop -p 6080:80 -p 5900:5900 -p 11311:1131 -e RESOLUTION=1920x1080
+Work you do in the container's `~/data` directory will be saved to your local `data` directory. On your host, create a `data` directory:
 
-Connect to the container using a VNC client or via http://locahost:6080/. From the Ubuntu desktop, open a terminal, and try:
+    mkdir data
 
-    gazebo worlds/pioneer2dx.world
+Now when launching the container, we'll use the `-v` flag to mount `data` inside the container at `/home/ubuntu/data`.
 
-This should open Gazebo with a simple virtual world and robot:
+### Windows
 
-![Gazebo](./gazebo.png)
+    docker run -it --rm --name=ros_gazebo_desktop -m=4g -p 6080:80 -p 5900:5900 -v %cd%/data:/home/ubuntu/data -e RESOLUTION=1920x1080 -e USER=ubuntu -e PASSWORD=ubuntu ros-gazebo-desktop 
 
-Experiment with more worlds by taking a look at the available ones via
+### OS X / Linux:
 
-    ls /usr/share/gazebo-9/worlds
+    docker run -it --rm --name=ros_gazebo_desktop -m=4g -p 6080:80 -p 5900:5900 -v $PWD/data:/home/ubuntu/data -e RESOLUTION=1920x1080 -e USER=ubuntu -e PASSWORD=ubuntu ros-gazebo-desktop   
 
-You can also launch a world with
+We also expose port 5900 so you can connect with a VNC client, and/or port 6080 so you can connect via your browser using NoVNC. You can change the `RESOLUTION` to match screen dimensions appropriate for your display, and the `USER` environment variable to change the user that logs into the desktop. In most cases, you'll want to leave this as the `ubuntu` user (password `ubuntu`). 
 
-    roslaunch gazebo_ros empty_world.launch
+Once the `docker run` command finishes running, connect to the container using a VNC client or via http://locahost:6080/. From the Ubuntu desktop, open a terminal, and try:
 
-## Launch a Robot into Gazebo
-
-If Gazebo isn't running, launch it with `roslaunch gazebo_ros empty_world.launch`. Let's spawn a robot into this world. I'll use the ["Create" robot from iRobot](https://www.irobot.com/about-irobot/stem/create-2), which is based off the Roomba platform:
+    roslaunch gazebo_ros empty_world.launch 
+    
+This will launch the Gazebo virtual world simulator with a default, empty world. Let's spawn the ["Create" robot from iRobot](https://www.irobot.com/about-irobot/stem/create-2), which is based off the Roomba platform. Open a new terminal, then:
 
     rosrun gazebo_ros spawn_model -file ~/.gazebo/models/create/model-1_4.sdf -sdf -model Create
 
-You should see `Spawn status: SpawnModel: Successfully spawned entity`. Switch views back to Gazebo and you'll find the Create robot in your virtual world.  
+You should see `Spawn status: SpawnModel: Successfully spawned entity`. Switch views back to Gazebo and you'll find the Create robot in your virtual world. It should look similar to the following.
 
-Take a look at the syntax at [http://gazebosim.org/tutorials?tut=ros_roslaunch](http://gazebosim.org/tutorials?tut=ros_roslaunch) for more details.
+![Gazebo Environment with Create Robot](./gazebo-create.png)
 
-## Persisting Data
+There are other worlds you can launch:
 
-To effectively work with the container and save your data, we'll create a workspace volume on your host that is effectively shared with the container.
+    roslaunch gazebo_ros willowgarage_world.launch
+    roslaunch gazebo_ros mud_world.launch
+    roslaunch gazebo_ros shapes_world.launch
+    roslaunch gazebo_ros rubble_world.launch
 
-    mkdir ros_ws
-
-Now when launching the container, we'll use the `-v` flag to mount `ros_ws` inside the container at `/root/ros_ws`. **Note**: The command below tries to launch your container with 4GB of RAM (`-m=4g`). Your default Docker installation might not allow that, see [here to changes those settings](https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container).
-
-* Windows:
-
-        docker run -it --rm --name=ros_gazebo_desktop -p 6080:80 -p 5900:5900 -p 11311:11311 -v %cd%/ros_ws:/root/ros_ws -m=4g -e RESOLUTION=1920x1080 ros-gazebo-desktop
-
-* OS X / Linux:
-
-        docker run -it --rm --name=ros_gazebo_desktop -p 6080:80 -p 5900:5900 -p 11311:11311 -v $PWD/ros_ws:/root/ros_ws -m=4g -e RESOLUTION=1920x1080 ros-gazebo-desktop    
-
-## Tutorial: Controlling a Robot from Your Host Machine
-
-### Start the container and connect to it
-
-If you haven't yet, start the container with a volume mounted on your host as described above. Connect to the container via VNC (or NoVNC in your browser).
-
-### Start a virtual world and launch a robot into it
-
-In the Ubuntu desktop, open a terminal, and launch an empty world:
-
-    roslaunch gazebo_ros empty_world.launch
-
-Open another terminal and launch a robot into it. We'll use a humanoid bot called _Robonaut_ (or _R2_), which is a virtualized version of a [robot that lives on board the International Space Station](https://robonaut.jsc.nasa.gov/R2/).
-
-    rosrun gazebo_ros spawn_model -file ~/.gazebo/models/robonaut/model-1_4.sdf -sdf -model robonaut
-
-You should see the robot spawned into the virtual world:
-
-![Gazebo](./robonaut.png)
+Take a look at the syntax at [http://gazebosim.org/tutorials?tut=ros_roslaunch](http://gazebosim.org/tutorials?tut=ros_roslaunch) for details on other launch options.
 
 ### Make the robot move
 
-TBD
+In a new terminal, list the currently available ROS topics:
 
+    $ rostopic list
+
+    /clock
+    /gazebo/link_states
+    /gazebo/model_states
+    /gazebo/parameter_descriptions
+    /gazebo/parameter_updates
+    /gazebo/set_link_state
+    /gazebo/set_model_state
+    /rosout
+
+We can manipulate the Create robot by sending a message to `model_state`. Publish a message to that topic:
+
+    rostopic pub /gazebo/set_model_state gazebo_msgs/ModelState '{model_name: Create, pose: { position: { x: 0, y: 0, z: 0 }, orientation: {x: 0, y: 0, z: 0} }, twist: { linear: { x: 1, y: 0, z: 0 }, angular: { x: 0, y: 0, z: 0}  }, reference_frame: world }'
+
+This command:
+
+1) Publishes a topic to the set_model_state topic of type `gazebo_msgs/ModelState`
+2) Contains the model name we specifed when we spawned the robot, `Create`
+3) Specifies an initial "pose" *x, y, z* position of `(0, 0, 0)`, and an initial orientation of `(0, 0, 0)`
+4) Specifies a "twist" component that tells it to move along the *x* axis
+5) Tells the topic that all of this happens in our `world` reference frame
+
+![Create Robot moving in the virtual world](./create-moving.png)
+    
 ## Other Robot Models and Considerations
 
-* A complete list of the OSRF robots downloaded to your Docker container can be found at [https://bitbucket.org/osrf/gazebo_models/src/default/](https://bitbucket.org/osrf/gazebo_models/src/default/). 
+* Many OSRF robot and models can be downloaded to your Docker container, and can be found at [https://bitbucket.org/osrf/gazebo_models/src/default/](https://bitbucket.org/osrf/gazebo_models/src/default/). 
+
+     hg clone https://bitbucket.org/osrf/gazebo_models ~/.gazebo/models
+
 * If you continue your experiments with the Create model, look at [https://gist.github.com/eddiem3/4f257b769d53c492b7ea0dc482cd7caa](https://gist.github.com/eddiem3/4f257b769d53c492b7ea0dc482cd7caa) or [http://guitarpenguin.is-programmer.com/posts/58100.html](http://guitarpenguin.is-programmer.com/posts/58100.html) for info on adding a differential-drive plugin.
+
+## Troubleshooting
+
+### Gazebo is slow or processes hang
+
+This is likely a memory issue. Launch your container with more RAM, 4GB for example, with the `-m=4g` flag. Your default Docker installation might not allow that, see [here to change those settings](https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container).
 
 ## Credits
 
