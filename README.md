@@ -98,5 +98,5 @@ This is likely a memory issue. Launch your container with more RAM, 4GB for exam
 
 Based on the following work:
 
-* Dockerfile: [https://github.com/bpinaya/robond-docker](https://github.com/bpinaya/robond-docker)
-* Docker base image: [https://hub.docker.com/r/dorowu/ubuntu-desktop-lxde-vnc/](https://hub.docker.com/r/dorowu/ubuntu-desktop-lxde-vnc/)
+* Docker file for ROS + Gazebo setup: [https://github.com/bpinaya/robond-docker](https://github.com/bpinaya/robond-docker)
+* LXDE Desktop: [https://hub.docker.com/r/dorowu/ubuntu-desktop-lxde-vnc/](https://hub.docker.com/r/dorowu/ubuntu-desktop-lxde-vnc/)
