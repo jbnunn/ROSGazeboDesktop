@@ -23,6 +23,9 @@ RUN apt-get install -y python-rosinstall python-rosinstall-generator python-wsto
 RUN /bin/bash -c "echo 'export HOME=/home/ubuntu' >> /root/.bashrc"
 RUN /bin/bash -c "echo 'source /opt/ros/melodic/setup.bash' >> /root/.bashrc && source /root/.bashrc"
 
+# Install Catkin
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ros-melodic-catkin python-catkin-tools
+
 # Download OSRF robot models for Gazebo.
 RUN mkdir -p ~/.gazebo
 RUN hg clone https://bitbucket.org/osrf/gazebo_models ~/.gazebo/models
