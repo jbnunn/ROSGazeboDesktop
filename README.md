@@ -30,7 +30,7 @@ You can also launch a world with
 
 ## Launch a Robot into Gazebo
 
-Let's spawn a robot into our world. If Gazebo isn't running, launch it with `roslaunch gazebo_ros empty_world.launch`. Now, let's spawn a robot into this world. I'll use the ["Create" robot from iRobot](https://www.irobot.com/about-irobot/stem/create-2), which is based off the Roomba platform:
+If Gazebo isn't running, launch it with `roslaunch gazebo_ros empty_world.launch`. Let's spawn a robot into this world. I'll use the ["Create" robot from iRobot](https://www.irobot.com/about-irobot/stem/create-2), which is based off the Roomba platform:
 
     rosrun gazebo_ros spawn_model -file ~/.gazebo/models/create/model-1_4.sdf -sdf -model Create
 
@@ -48,11 +48,11 @@ Now when launching the container, we'll use the `-v` flag to mount `ros_ws` insi
 
 * Windows:
 
-        docker run -it --rm --name=ros_gazebo_desktop -p 6080:80 -p 5900:5900 -p 11311:11311 -v %cd%/ros_ws:/root/ros_ws -m=4g -e RESOLUTION=1920x108 ros-gazebo-desktop
+        docker run -it --rm --name=ros_gazebo_desktop -p 6080:80 -p 5900:5900 -p 11311:11311 -v %cd%/ros_ws:/root/ros_ws -m=4g -e RESOLUTION=1920x1080 ros-gazebo-desktop
 
 * OS X / Linux:
 
-        docker run -it --rm --name=ros_gazebo_desktop -p 6080:80 -p 5900:5900 -p 11311:11311 -v $PWD/ros_ws:/root/ros_ws -m=4g -e RESOLUTION=1920x108 ros-gazebo-desktop    
+        docker run -it --rm --name=ros_gazebo_desktop -p 6080:80 -p 5900:5900 -p 11311:11311 -v $PWD/ros_ws:/root/ros_ws -m=4g -e RESOLUTION=1920x1080 ros-gazebo-desktop    
 
 ## Tutorial: Controlling a Robot from Your Host Machine
 
