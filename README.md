@@ -78,16 +78,36 @@ This command:
     
 ## Turtlebot
 
-TurtleBot is a platform robot that makes learning principles of robotics--espeically within ROS--easier to learn. You can find many Turtlebot tutorials to help you get up to speed. The standard Turtlebot packages are installed by default in this Dockerfile. You can get started by following along the instructions at [http://emanual.robotis.com/docs/en/platform/turtlebot3/pc_setup/](http://emanual.robotis.com/docs/en/platform/turtlebot3/pc_setup/). Since the packages have already been installed, you can begin with
+TurtleBot is a platform robot that makes learning principles of robotics--espeically within ROS--easier to learn. You can find many Turtlebot tutorials to help you get up to speed. The standard Turtlebot packages are installed by default in this Dockerfile. You can get started by following along the instructions at [http://emanual.robotis.com/docs/en/platform/turtlebot3/pc_setup/](http://emanual.robotis.com/docs/en/platform/turtlebot3/pc_setup/). Since the packages have already been installed, you can begin with the following (note the substitution of `catkin_ws` with `data`):
 
     mkdir -p ~/data/src
     cd ~/data/src/
     git clone https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
     git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
+
+Though not listed in the above link, you'll also need to add the `turtlebot3_simulation` package:
+
+    git clone https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
     cd ~/data && catkin_make
+    export TURTLEBOT3_MODEL=burger
     source devel/setup.bash
 
-and then follow the Robotis tutorials on things like [SLAM](http://emanual.robotis.com/docs/en/platform/turtlebot3/slam/#slam), [Navigation](http://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/#navigation), [Manipulation](http://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/#manipulation), [Autonomous Driving](http://emanual.robotis.com/docs/en/platform/turtlebot3/autonomous_driving/#autonomous-driving), [Machine Learning](http://emanual.robotis.com/docs/en/platform/turtlebot3/machine_learning/), and more.
+You should now be able to run the following, which will show the Turtlebot navigating autonomously in a virtual world. Gazebo will open and show a 3D representation of the world, and Rviz will show you a point point map based off a simulated laser system.
+
+![Turtlebot in virtual worlds](./turtlebot-gazebo-rviz.png)
+
+You will need three terminals to run the following:
+
+    # Terminal 1: Launch Gazebo
+    roslaunch turtlebot3_gazebo turtlebot3_world.launch
+
+    # Terminal 2: Start the Turtlebot
+    roslaunch turtlebot3_gazebo turtlebot3_simulation.launch
+
+    # Terminal 3: Start Rviz
+    roslaunch turtlebot3_gazebo turtlebot3_gazebo_rviz.launch
+
+You can also follow Robotis tutorials on things like [SLAM](http://emanual.robotis.com/docs/en/platform/turtlebot3/slam/#slam), [Navigation](http://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/#navigation), [Manipulation](http://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/#manipulation), [Autonomous Driving](http://emanual.robotis.com/docs/en/platform/turtlebot3/autonomous_driving/#autonomous-driving), [Machine Learning](http://emanual.robotis.com/docs/en/platform/turtlebot3/machine_learning/), and more.
 
 ## Other Robot Models and Considerations
 

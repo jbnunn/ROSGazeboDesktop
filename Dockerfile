@@ -32,6 +32,14 @@ RUN apt-get install -y ros-kinetic-joy ros-kinetic-teleop-twist-joy ros-kinetic-
 # Setup the shell
 RUN /bin/bash -c "echo 'export HOME=/home/ubuntu' >> /root/.bashrc"
 RUN /bin/bash -c "echo 'source /opt/ros/kinetic/setup.bash' >> /root/.bashrc"
+
+# Fix QT issues with Gazebo on 16.04
+RUN /bin/bash -c "echo 'export QT_X11_NO_MITSHM=1' >> /root/.bashrc"
+
+# Set the TURTLEBOT model to default to `burger` 
+RUN /bin/bash -c "echo 'export TURTLEBOT3_MODEL=burger' >> /root/.bashrc"
+
+# Copy to ubuntu's .bashrc
 RUN cp /root/.bashrc /home/ubuntu/.bashrc
 RUN /bin/bash -c "source /home/ubuntu/.bashrc"
 
