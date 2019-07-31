@@ -1,6 +1,8 @@
 # Running ROS and Gazebo on an Ubuntu Desktop via Docker
 
-This Dockerfile will install ROS Melodic with Gazebo 9 on Ubuntu 18.04, and give you a VNC interface to work within that environment. The container is tested and working on Windows 10 and Mac OS X. To install:
+This Dockerfile will install ROS Melodic with Gazebo 9 on Ubuntu 18.04, and give you a VNC interface to work within that environment. The container is tested and working on Windows 10 and Mac OS X. If you need ROS Kinetic with Turtlebot simulations, be sure to check out [the `kinetic` branch](https://github.com/jbnunn/ROSGazeboDesktop/tree/kinetic).
+
+To install:
 
     git clone https://github.com/jbnunn/ROSGazeboDesktop
     cd ROSGazeboDesktop
