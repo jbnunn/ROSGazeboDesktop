@@ -1,10 +1,10 @@
 # Running ROS and Gazebo on an Ubuntu Desktop via Docker
 
-This Dockerfile will install ROS Melodic with Gazebo 9 on Ubuntu 18.04, and give you a VNC interface to work within that environment. The container is tested and working on Windows 10 and Mac OS X. To install:
+This Dockerfile will install ROS Kinetic with Gazebo 7 on Ubuntu 16.04, and give you a VNC interface to work within that environment. The container is tested and working on Windows 10 and Mac OS X. To install:
 
-    git clone https://github.com/jbnunn/ROSGazeboDesktop
+    git clone https://github.com/jbnunn/ROSGazeboDesktop -b kinetic
     cd ROSGazeboDesktop
-    docker build -t ros-gazebo-desktop .
+    docker build -t ros-gazebo-desktop:kinetic .
     
 ## Start and Connect to The Container
 
@@ -18,11 +18,11 @@ Now when launching the container, we'll use the `-v` flag to mount `data` inside
 
 ### Windows
 
-    docker run -it --rm --name=ros_gazebo_desktop -m=4g -p 6080:80 -p 5900:5900 -v %cd%/data:/home/ubuntu/data -e RESOLUTION=1920x1080 -e USER=ubuntu -e PASSWORD=ubuntu ros-gazebo-desktop 
+    docker run -it --rm --name=ros_gazebo_desktop -m=4g -p 6080:80 -p 5900:5900 -v %cd%/data:/home/ubuntu/data -e RESOLUTION=1920x1080 -e USER=ubuntu -e PASSWORD=ubuntu ros-gazebo-desktop:kinetic
 
 ### OS X / Linux:
 
-    docker run -it --rm --name=ros_gazebo_desktop -m=4g -p 6080:80 -p 5900:5900 -v $PWD/data:/home/ubuntu/data -e RESOLUTION=1920x1080 -e USER=ubuntu -e PASSWORD=ubuntu ros-gazebo-desktop   
+    docker run -it --rm --name=ros_gazebo_desktop -m=4g -p 6080:80 -p 5900:5900 -v $PWD/data:/home/ubuntu/data -e RESOLUTION=1920x1080 -e USER=ubuntu -e PASSWORD=ubuntu ros-gazebo-desktop:kinetic   
 
 We also expose port 5900 so you can connect with a VNC client, and/or port 6080 so you can connect via your browser using NoVNC. You can change the `RESOLUTION` to match screen dimensions appropriate for your display, and the `USER` environment variable to change the user that logs into the desktop. In most cases, you'll want to leave this as the `ubuntu` user (password `ubuntu`). 
 
@@ -76,6 +76,19 @@ This command:
 
 ![Create Robot moving in the virtual world](./create-moving.png)
     
+## Turtlebot
+
+TurtleBot is a platform robot that makes learning principles of robotics--espeically within ROS--easier to learn. You can find many Turtlebot tutorials to help you get up to speed. The standard Turtlebot packages are installed by default in this Dockerfile. You can get started by following along the instructions at [http://emanual.robotis.com/docs/en/platform/turtlebot3/pc_setup/](http://emanual.robotis.com/docs/en/platform/turtlebot3/pc_setup/). Since the packages have already been installed, you can begin with
+
+    mkdir -p ~/data/src
+    cd ~/data/src/
+    git clone https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+    git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
+    cd ~/data && catkin_make
+    source devel/setup.bash
+
+and then follow the Robotis tutorials on things like [SLAM](http://emanual.robotis.com/docs/en/platform/turtlebot3/slam/#slam), [Navigation](http://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/#navigation), [Manipulation](http://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/#manipulation), [Autonomous Driving](http://emanual.robotis.com/docs/en/platform/turtlebot3/autonomous_driving/#autonomous-driving), [Machine Learning](http://emanual.robotis.com/docs/en/platform/turtlebot3/machine_learning/), and more.
+
 ## Other Robot Models and Considerations
 
 * Many OSRF robot and models can be downloaded to your Docker container, and can be found at [https://bitbucket.org/osrf/gazebo_models/src/default/](https://bitbucket.org/osrf/gazebo_models/src/default/). 
