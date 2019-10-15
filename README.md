@@ -10,8 +10,6 @@ To install:
     
 ## Start and Connect to The Container
 
-To effectively work with the container and save your data, we specify a workspace volume on your host with the `-v` flag.
-
 Work you do in the container's `~/data` directory will be saved to your local `data` directory. On your host, create a `data` directory:
 
     mkdir data

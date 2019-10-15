@@ -44,3 +44,6 @@ RUN mkdir -p /home/ubuntu/.gazebo/
 COPY models /home/ubuntu/.gazebo/models
 
 
+# Setup workshop directory
+RUN mkdir -p ROAST
+COPY lib/curiosity_mars_rover_description ROAST/
